@@ -5,12 +5,10 @@
   "license": "",
   "scripts": {
     "start": "node server-node/webrtc-chat.js",
-    "build": "cd ./client && npm run build"
+    "build": "cd ./client && npm install && npm run build && cd ../server-node && npm intall"
   },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.17.3",
-    "peer": "^0.6.1",
-    "socket.io": "^4.4.1"
+  "engine": {
+    "node": "16.13.1",
+    "npm": "8.1.2"
   }
 }
