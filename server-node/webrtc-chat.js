@@ -1,4 +1,5 @@
 const app = require("express")();
+const path = require("path");
 const server = require("http").createServer(app);
 const { ExpressPeerServer } = require("peer");
 const cors = require("cors");
@@ -10,6 +11,12 @@ const peerServer = ExpressPeerServer(server, {
 });
 
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, "dist_client")));
+
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "dist_client", "index.html"));
+});
 
 app.use("/peerjs", peerServer);
 

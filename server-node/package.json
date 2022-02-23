@@ -5,8 +5,8 @@
   "license": "",
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js",
-    "rtc": "nodemon webrtc-chat.js"
+    "start": "node webrtc-chat.js",
+    "build": "cd ../client && yarn build"
   },
   "dependencies": {
     "cors": "^2.8.5",

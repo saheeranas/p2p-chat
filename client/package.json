@@ -25,7 +25,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "BUILD_PATH='../server-node/dist_client' react-scripts build",
+    "build-og": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
