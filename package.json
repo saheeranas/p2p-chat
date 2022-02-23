@@ -5,7 +5,7 @@
   "license": "",
   "scripts": {
     "start": "node server-node/webrtc-chat.js",
-    "build": "cd ./client && npm install && npm run build && cd ../server-node && npm intall"
+    "build": "cd ./client && npm install && npm run build && cd ../server-node && npm install"
   },
   "engine": {
     "node": "16.13.1",
