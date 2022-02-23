@@ -28,8 +28,9 @@ export const PeerInfoProvider = ({ children }: any) => {
       .replace(/[^a-z]+/g, "")
       .substring(2, 10);
     const newPeer = new Peer(random_id, {
-      host: "localhost",
-      // port: 80,
+      host: "p2p-chat-rtc.herokuapp.com",
+      // host: "localhost",
+      // port: 5000,
       path: "/peerjs",
     });
     setPeer(newPeer);
