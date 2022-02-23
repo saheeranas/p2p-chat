@@ -1,12 +1,11 @@
 {
-  "name": "server-node",
+  "name": "p2p-chat",
   "version": "1.0.0",
   "main": "index.js",
   "license": "",
   "scripts": {
-    "dev": "nodemon webrtc-chat.js",
-    "start": "node webrtc-chat.js",
-    "build": "cd ../client && yarn build"
+    "start": "node server-node/webrtc-chat.js",
+    "build": "cd ./client && yarn build"
   },
   "dependencies": {
     "cors": "^2.8.5",
