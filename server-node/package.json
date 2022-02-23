@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon webrtc-chat.js",
     "start": "node webrtc-chat.js",
-    "build": "cd ../client && yarn build"
+    "build": "cd ../client && npm run build"
   },
   "dependencies": {
     "cors": "^2.8.5",
