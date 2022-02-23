@@ -29,7 +29,7 @@ export const PeerInfoProvider = ({ children }: any) => {
       .substring(2, 10);
     const newPeer = new Peer(random_id, {
       host: "localhost",
-      port: 80,
+      // port: 80,
       path: "/peerjs",
     });
     setPeer(newPeer);
