@@ -1,4 +1,5 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 const path = require("path");
 const server = require("http").createServer(app);
 const { ExpressPeerServer } = require("peer");
