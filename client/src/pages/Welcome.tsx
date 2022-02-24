@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 import { usePeerInfo } from "../hooks/useChatsInfo";
 
+const intialValues = { name: "", destId: "" };
+
 function Welcome() {
   let navigate = useNavigate();
 
   const { peer, conn, setConn, changeName } = usePeerInfo();
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(intialValues);
 
   // If connected, navigate to chat screen
   useEffect(() => {
@@ -22,7 +24,7 @@ function Welcome() {
   const handleSubmitConnectForm = async (values: any) => {
     if (!peer || values.destId.trim() === "") {
       return false;
-    } else if (values.name.trim() !== "") {
+    } else if (values.name?.trim() !== "") {
       changeName(values.name);
     }
 
@@ -33,6 +35,8 @@ function Welcome() {
       console.warn(error);
     }
   };
+
+  console.log(value);
 
   return (
     <div style={{ height: "100vh" }}>
@@ -50,7 +54,7 @@ function Welcome() {
           <Form
             value={value}
             onChange={(nextValue) => setValue(nextValue)}
-            onReset={() => setValue(null)}
+            onReset={() => setValue(intialValues)}
             onSubmit={({ value }) => handleSubmitConnectForm(value)}
           >
             <FormField
@@ -74,8 +78,8 @@ function Welcome() {
               />
             </FormField>
             <Box direction="row" gap="medium" pad="small" justify="center">
-              <Button type="reset" label="Reset" />
               <Button type="submit" primary label="Submit" />
+              <Button type="reset" label="Reset" />
             </Box>
           </Form>
         </Box>

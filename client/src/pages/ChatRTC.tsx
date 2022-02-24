@@ -7,11 +7,12 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
+  Form,
+  Box,
 } from "grommet";
 import { useNavigate } from "react-router-dom";
 
 import { usePeerInfo } from "../hooks/useChatsInfo";
-
 import ChatListRTC from "../components/ChatListRTC";
 
 type chatHistoryType = {
@@ -20,10 +21,12 @@ type chatHistoryType = {
   message: string;
 };
 
+const intialValues = { msg: "" };
+
 function ChatRTC() {
   let navigate = useNavigate();
   const { peer, conn, user } = usePeerInfo();
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(intialValues);
 
   const [chatHistory, setChatHistory] = useState<chatHistoryType[]>([]);
 
@@ -54,18 +57,18 @@ function ChatRTC() {
     setChatHistory((prevState) => [...prevState, temp]);
   };
 
-  const handleSend = () => {
-    if (conn && value.trim() !== "") {
-      conn.send({ senderId: peer._id, sender: user.name, message: value });
-      handleChatHistory(value);
+  const handleSend = (values: any) => {
+    if (conn && value.msg.trim() !== "") {
+      conn.send({ senderId: peer._id, sender: user.name, message: values.msg });
+      handleChatHistory(values.msg);
     }
-    setValue("");
+    setValue(intialValues);
   };
 
   return (
     <div style={{ height: "100vh" }}>
-      <Main background="brand" justify="center" align="center">
-        <Card width="medium" height="100vh" background="light-1" responsive>
+      <Main background="brand" justify="start" align="center">
+        <Card width="medium" height="95%" background="light-1" responsive>
           <CardHeader pad="medium" background="light-1">
             {conn.peer ? conn.peer : ""}
           </CardHeader>
@@ -82,12 +85,18 @@ function ChatRTC() {
             )}
           </CardBody>
           <CardFooter pad="medium" background="light-1">
-            <TextInput
-              placeholder="type here"
+            <Form
               value={value}
-              onChange={(event) => setValue(event.target.value)}
-            />
-            <Button primary label="Send" onClick={handleSend} />
+              onChange={(nextValue) => setValue(nextValue)}
+              onReset={() => setValue(intialValues)}
+              onSubmit={({ value }) => handleSend(value)}
+              style={{ width: "100%" }}
+            >
+              <Box direction="row" gap="small" justify="between">
+                <TextInput id="msg" name="msg" placeholder="type here" />
+                <Button primary type="submit" label="Send" alignSelf="end" />
+              </Box>
+            </Form>
           </CardFooter>
         </Card>
       </Main>

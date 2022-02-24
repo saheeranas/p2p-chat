@@ -2,7 +2,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 import Peer from "peerjs";
 
 type userType = {
-  name: string;
+  name?: string;
   peerId: string;
 };
 
@@ -17,6 +17,8 @@ type peerType = {
 const PeerContext = createContext<peerType | null>(null);
 
 export const PeerInfoProvider = ({ children }: any) => {
+  const [error, setError] = useState(null);
+
   // User initial values
   const [user, setUser] = useState<userType>({ name: "", peerId: "" });
 
@@ -28,9 +30,9 @@ export const PeerInfoProvider = ({ children }: any) => {
       .replace(/[^a-z]+/g, "")
       .substring(2, 10);
     const newPeer = new Peer(random_id, {
-      host: "p2p-chat-rtc.herokuapp.com",
-      // host: "localhost",
-      // port: 5000,
+      // host: "p2p-chat-rtc.herokuapp.com",
+      host: "localhost",
+      port: 5000,
       path: "/peerjs",
     });
     setPeer(newPeer);
@@ -54,6 +56,14 @@ export const PeerInfoProvider = ({ children }: any) => {
           setConn(a);
         }
       });
+
+      peer.on("error", function (err: any) {
+        setError(err?.type);
+      });
+
+      peer.on("disconnected", function () {
+        // console.log("Peer disconnected");
+      });
     }
   }, [peer, conn]);
 
@@ -65,9 +75,31 @@ export const PeerInfoProvider = ({ children }: any) => {
     setUser((prevState) => ({ ...prevState, name: name }));
   };
 
+  // console.log(error);
+
   return (
     <PeerContext.Provider value={{ peer, conn, setConn, user, changeName }}>
       {children}
+      {error && (
+        <div
+          id="error"
+          style={{
+            background: "#bf3b3b",
+            color: "white",
+            fontSize: 12,
+            position: "absolute",
+            zIndex: 2,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            margin: "auto",
+            textAlign: "center",
+            padding: "5px 12px",
+          }}
+        >
+          Error: {error}
+        </div>
+      )}
     </PeerContext.Provider>
   );
 };
