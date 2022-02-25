@@ -29,13 +29,19 @@ export const PeerInfoProvider = ({ children }: any) => {
       .toString(36)
       .replace(/[^a-z]+/g, "")
       .substring(2, 10);
-    const newPeer = new Peer(random_id, {
-      host: "p2p-chat-rtc.herokuapp.com",
-      // host: "localhost",
-      // port: 5000,
+
+    let config: { host: string | undefined; path: string; port?: number } = {
+      host: process.env.REACT_APP_HOST,
       path: "/peerjs",
-    });
+    };
+
+    if (Boolean(parseInt(`${process.env.REACT_APP_PORT}`))) {
+      config["port"] = parseInt(`${process.env.REACT_APP_PORT}`);
+    }
+
+    const newPeer = new Peer(random_id, config);
     setPeer(newPeer);
+
     return () => {
       newPeer.disconnect();
     };
@@ -78,8 +84,6 @@ export const PeerInfoProvider = ({ children }: any) => {
     }
     setUser((prevState) => ({ ...prevState, name: name }));
   };
-
-  // console.log(error);
 
   return (
     <PeerContext.Provider value={{ peer, conn, setConn, user, changeName }}>
