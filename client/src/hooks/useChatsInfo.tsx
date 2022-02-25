@@ -30,9 +30,9 @@ export const PeerInfoProvider = ({ children }: any) => {
       .replace(/[^a-z]+/g, "")
       .substring(2, 10);
     const newPeer = new Peer(random_id, {
-      host: "p2p-chat-rtc.herokuapp.com",
-      // host: "localhost",
-      // port: 5000,
+      // host: "p2p-chat-rtc.herokuapp.com",
+      host: "localhost",
+      port: 5000,
       path: "/peerjs",
     });
     setPeer(newPeer);
@@ -59,6 +59,10 @@ export const PeerInfoProvider = ({ children }: any) => {
 
       peer.on("error", function (err: any) {
         setError(err?.type);
+      });
+
+      peer.on("close", function () {
+        // console.log("Peer closed");
       });
 
       peer.on("disconnected", function () {

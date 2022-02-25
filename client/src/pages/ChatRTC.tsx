@@ -9,6 +9,7 @@ import {
   CardFooter,
   Form,
   Box,
+  Text,
 } from "grommet";
 import { useNavigate } from "react-router-dom";
 
@@ -39,12 +40,16 @@ function ChatRTC() {
   useEffect(() => {
     if (conn) {
       conn.on("data", function (data: any) {
-        // console.log("Received", data);
         handleChatHistory({
           senderId: data.senderId,
           sender: data.sender,
           message: data.message,
         });
+      });
+
+      conn.on("close", () => {
+        console.log("data connection closed");
+        navigate("/");
       });
     }
   }, [conn]);
@@ -65,18 +70,27 @@ function ChatRTC() {
     setValue(intialValues);
   };
 
+  const handleDisconnect = () => {
+    conn.close();
+  };
+
   return (
     <div style={{ height: "100vh" }}>
       <Main background="brand" justify="start" align="center">
         <Card width="medium" height="95%" background="light-1" responsive>
           <CardHeader pad="medium" background="light-1">
-            {conn.peer ? conn.peer : ""}
+            <Text>{conn.peer ? conn.peer : ""}</Text>
+            <Button secondary plain label="Exit" onClick={handleDisconnect} />
           </CardHeader>
           <CardBody
             pad="small"
             background="light-3"
             fill="vertical"
-            style={{ overflowY: "auto" }}
+            style={{
+              overflowY: "auto",
+              scrollbarWidth: "thin",
+              marginRight: "-10px",
+            }}
           >
             {chatHistory ? (
               <ChatListRTC data={chatHistory} me={user} />

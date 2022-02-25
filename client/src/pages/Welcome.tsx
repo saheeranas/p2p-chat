@@ -36,8 +36,6 @@ function Welcome() {
     }
   };
 
-  console.log(value);
-
   return (
     <div style={{ height: "100vh" }}>
       <Main pad="large" background="brand" justify="center" align="center">
