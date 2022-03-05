@@ -1,6 +1,12 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import Peer from "peerjs";
 
+import {
+  storeToLocal,
+  readFromLocal,
+  deleteFromLocal,
+} from "../utils/localStorage";
+
 type userType = {
   name?: string;
   peerId: string;
@@ -17,18 +23,37 @@ type peerType = {
 const PeerContext = createContext<peerType | null>(null);
 
 export const PeerInfoProvider = ({ children }: any) => {
+  // Error state
   const [error, setError] = useState(null);
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setError(null);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [error]);
 
   // User initial values
   const [user, setUser] = useState<userType>({ name: "", peerId: "" });
 
   // Peer object 'peer'
   const [peer, setPeer] = useState<any>(null);
+
   useEffect(() => {
+    // Unique Id generation
     const random_id = Math.random()
       .toString(36)
       .replace(/[^a-z]+/g, "")
-      .substring(2, 10);
+      .substring(0, 6);
+
+    // Check if already exists. if no, store id to localStorage
+    let myOldId = readFromLocal("myId");
+    let myId = myOldId || random_id;
+    if (!myOldId) {
+      storeToLocal("myId", random_id);
+    }
 
     let config: { host: string | undefined; path: string; port?: number } = {
       host: process.env.REACT_APP_HOST,
@@ -39,7 +64,7 @@ export const PeerInfoProvider = ({ children }: any) => {
       config["port"] = parseInt(`${process.env.REACT_APP_PORT}`);
     }
 
-    const newPeer = new Peer(random_id, config);
+    const newPeer = new Peer(myId, config);
     setPeer(newPeer);
 
     return () => {
@@ -52,30 +77,49 @@ export const PeerInfoProvider = ({ children }: any) => {
   useEffect(() => {
     if (peer) {
       peer.on("open", (id: any) => {
-        // console.log("My peer ID is: " + id);
+        console.log("My peer ID is: " + id);
         setUser((prevState) => ({ ...prevState, peerId: id }));
+
+        let oldDestId = readFromLocal("destId");
+        if (oldDestId && !conn) {
+          console.log("destId in local exists", oldDestId);
+          const newConn = peer.connect(oldDestId);
+          setConn(newConn);
+        }
       });
 
       peer.on("connection", function (a: any) {
-        // console.log("Receiver initiated");
+        // console.log("Receiver initiated", a);
         if (!conn) {
           setConn(a);
+          storeToLocal("destId", a.peer);
         }
       });
 
       peer.on("error", function (err: any) {
         setError(err?.type);
+        console.log("Peer error");
       });
 
       peer.on("close", function () {
-        // console.log("Peer closed");
+        console.log("Peer closed");
       });
 
       peer.on("disconnected", function () {
-        // console.log("Peer disconnected");
+        // peer.reconnect();
+        console.log("Peer disconnected");
       });
     }
   }, [peer, conn]);
+
+  useEffect(() => {
+    if (conn) {
+      conn.on("close", () => {
+        console.log("data connection closed");
+        deleteFromLocal("destId");
+      });
+    }
+  }, [conn]);
 
   // User name change handler
   const changeName = (name: string) => {

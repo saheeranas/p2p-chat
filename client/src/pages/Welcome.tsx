@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import { usePeerInfo } from "../hooks/useChatsInfo";
 
-const intialValues = { name: "", destId: "" };
+const initialName = Math.random().toString().substring(2, 10);
+
+const intialValues = { name: `Peer${initialName}`, destId: "" };
 
 function Welcome() {
   let navigate = useNavigate();
@@ -47,7 +49,7 @@ function Welcome() {
             justify="between"
           >
             <Text>Your ID</Text>
-            <Text weight="bold">{peer?._id ? peer._id : "0000"}</Text>
+            <Text weight="bold">{peer?._id || "0000"}</Text>
           </Box>
           <Form
             value={value}
@@ -76,7 +78,7 @@ function Welcome() {
               />
             </FormField>
             <Box direction="row" gap="medium" pad="small" justify="center">
-              <Button type="submit" primary label="Submit" />
+              <Button type="submit" primary label="Connect" />
               <Button type="reset" label="Reset" />
             </Box>
           </Form>
