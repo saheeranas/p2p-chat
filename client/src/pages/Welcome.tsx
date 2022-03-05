@@ -3,15 +3,14 @@ import { Main, Box, Text, Form, FormField, TextInput, Button } from "grommet";
 import { useNavigate } from "react-router-dom";
 
 import { usePeerInfo } from "../hooks/useChatsInfo";
+import { storeToLocal } from "../utils/localStorage";
 
-const initialName = Math.random().toString().substring(2, 10);
-
-const intialValues = { name: `Peer${initialName}`, destId: "" };
+const intialValues = { name: "", destId: "" };
 
 function Welcome() {
   let navigate = useNavigate();
 
-  const { peer, conn, setConn, changeName } = usePeerInfo();
+  const { peer, conn, setConn, user, changeName } = usePeerInfo();
   const [value, setValue] = useState(intialValues);
 
   // If connected, navigate to chat screen
@@ -23,6 +22,13 @@ function Welcome() {
     }
   }, [conn, navigate]);
 
+  // Update name in form if alredy exists
+  useEffect(() => {
+    if (user?.name && user.name !== value.name) {
+      setValue((prevState) => ({ ...prevState, name: user.name }));
+    }
+  }, [user, value]);
+
   const handleSubmitConnectForm = async (values: any) => {
     if (!peer || values.destId.trim() === "") {
       return false;
@@ -33,6 +39,7 @@ function Welcome() {
     try {
       const newConn = peer.connect(values.destId);
       setConn(newConn);
+      storeToLocal("destId", values.destId);
     } catch (error) {
       console.warn(error);
     }
