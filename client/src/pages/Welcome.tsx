@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { usePeerInfo } from "../hooks/useChatsInfo";
 import { storeToLocal } from "../utils/localStorage";
 
-const intialValues = { name: "", destId: "" };
+const intialValues = { destId: "" };
 
 function Welcome() {
   let navigate = useNavigate();
@@ -22,18 +22,13 @@ function Welcome() {
     }
   }, [conn, navigate]);
 
-  // Update name in form if alredy exists
-  useEffect(() => {
-    if (user?.name && user.name !== value.name) {
-      setValue((prevState) => ({ ...prevState, name: user.name }));
-    }
-  }, [user, value]);
+  const handleNameInput = (val: string) => {
+    changeName(val);
+  };
 
   const handleSubmitConnectForm = async (values: any) => {
     if (!peer || values.destId.trim() === "") {
       return false;
-    } else if (values.name?.trim() !== "") {
-      changeName(values.name);
     }
 
     try {
@@ -58,20 +53,29 @@ function Welcome() {
             <Text>Your ID</Text>
             <Text weight="bold">{peer?._id || "0000"}</Text>
           </Box>
-          <Form
-            value={value}
-            onChange={(nextValue) => setValue(nextValue)}
-            onReset={() => setValue(intialValues)}
-            onSubmit={({ value }) => handleSubmitConnectForm(value)}
-          >
+          <Box>
             <FormField
               label="Your Name"
               contentProps={{
                 margin: { horizontal: "small", vertical: "xsmall" },
               }}
             >
-              <TextInput placeholder="Nick name" id="name" name="name" />
+              <TextInput
+                value={user.name}
+                placeholder="Nick name"
+                id="name"
+                name="name"
+                onChange={(event) => handleNameInput(event.target.value)}
+              />
             </FormField>
+          </Box>
+
+          <Form
+            value={value}
+            onChange={(nextValue) => setValue(nextValue)}
+            onReset={() => setValue(intialValues)}
+            onSubmit={({ value }) => handleSubmitConnectForm(value)}
+          >
             <FormField
               label="Your friend's ID"
               contentProps={{
