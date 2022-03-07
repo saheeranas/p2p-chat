@@ -1,8 +1,8 @@
 {
   "name": "p2p-chat",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "",
+  "main": "index.js", 
+  "private": true,
   "scripts": {
     "start": "node server-node/webrtc-chat.js",
     "build": "cd ./client && npm install && npm run build && cd ../server-node && npm install"

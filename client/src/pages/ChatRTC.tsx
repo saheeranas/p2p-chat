@@ -48,7 +48,6 @@ function ChatRTC() {
       });
 
       conn.on("close", () => {
-        console.log("data connection closed");
         navigate("/");
       });
     }
@@ -79,8 +78,14 @@ function ChatRTC() {
       <Main background="brand" justify="start" align="center">
         <Card width="medium" height="95%" background="light-1" responsive>
           <CardHeader pad="medium" background="light-1">
-            <Text>{conn.peer ? conn.peer : ""}</Text>
-            <Button secondary plain label="Exit" onClick={handleDisconnect} />
+            <Text>{conn?.peer ? conn.peer : ""}</Text>
+            <Button
+              secondary
+              plain
+              label="Disconnect"
+              onClick={handleDisconnect}
+              size="small"
+            />
           </CardHeader>
           <CardBody
             pad="small"
@@ -106,9 +111,15 @@ function ChatRTC() {
               onSubmit={({ value }) => handleSend(value)}
               style={{ width: "100%" }}
             >
-              <Box direction="row" gap="small" justify="between">
+              <Box direction="row" gap="small" justify="between" align="center">
                 <TextInput id="msg" name="msg" placeholder="type here" />
-                <Button primary type="submit" label="Send" alignSelf="end" />
+                <Button
+                  primary
+                  type="submit"
+                  label="Send"
+                  fill="vertical"
+                  size="medium"
+                />
               </Box>
             </Form>
           </CardFooter>
