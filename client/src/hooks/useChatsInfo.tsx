@@ -127,12 +127,12 @@ export const PeerInfoProvider = ({ children }: any) => {
 
   // User name change handler
   const changeName = (name: string) => {
-    if (!name || name.trim() === "" || name.length > 15) {
+    if (name.length > 15) {
       return;
     }
 
     setUser((prevState) => ({ ...prevState, name: name }));
-    storeToLocal("name", name);
+    storeToLocal("name", name.trim());
   };
 
   return (
