@@ -127,7 +127,7 @@ export const PeerInfoProvider = ({ children }: any) => {
 
   // User name change handler
   const changeName = (name: string) => {
-    if (name.length > 15) {
+    if (!name || name.length > 15) {
       return;
     }
 
