@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { usePeerInfo } from "../hooks/useChatsInfo";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 import ChatListRTC from "../components/ChatListRTC";
 
 type chatHistoryType = {
@@ -27,6 +28,7 @@ const intialValues = { msg: "" };
 function ChatRTC() {
   let navigate = useNavigate();
   const { peer, conn, user } = usePeerInfo();
+  const { height } = useWindowDimensions();
   const [value, setValue] = useState(intialValues);
 
   const [chatHistory, setChatHistory] = useState<chatHistoryType[]>([]);
@@ -74,9 +76,9 @@ function ChatRTC() {
   };
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height }}>
       <Main background="brand" justify="start" align="center">
-        <Card width="medium" height="95%" background="light-1" responsive>
+        <Card width="medium" fill="vertical" background="light-1" responsive>
           <CardHeader pad="medium" background="light-1">
             <Text>{conn?.peer ? conn.peer : ""}</Text>
             <Button
