@@ -38,7 +38,7 @@ export const PeerInfoProvider = ({ children }: any) => {
   // User initial values
   const [user, setUser] = useState<userType>({ name: "", peerId: "" });
   useEffect(() => {
-    let name = readFromLocal("name");
+    let name = readFromLocal("name") || "";
     changeName(name);
   }, []);
 
@@ -126,8 +126,8 @@ export const PeerInfoProvider = ({ children }: any) => {
   }, [conn]);
 
   // User name change handler
-  const changeName = (name: string) => {
-    if (!name || name.length > 15) {
+  const changeName = (name: string = "") => {
+    if (name.length > 15) {
       return;
     }
 
