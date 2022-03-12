@@ -87,7 +87,9 @@ export const PeerInfoProvider = ({ children }: any) => {
         let oldDestId = readFromLocal("destId");
         if (oldDestId && !conn) {
           console.log("destId in local exists", oldDestId);
-          const newConn = peer.connect(oldDestId);
+          const newConn = peer.connect(oldDestId, {
+            serialization: "json",
+          });
           setConn(newConn);
         }
       });

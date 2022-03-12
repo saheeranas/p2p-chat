@@ -32,7 +32,9 @@ function Welcome() {
     }
 
     try {
-      const newConn = peer.connect(values.destId);
+      const newConn = peer.connect(values.destId, {
+        serialization: "json",
+      });
       setConn(newConn);
       storeToLocal("destId", values.destId);
     } catch (error) {

@@ -42,6 +42,7 @@ function ChatRTC() {
   useEffect(() => {
     if (conn) {
       conn.on("data", function (data: any) {
+        console.log(data);
         handleChatHistory({
           senderId: data.senderId,
           sender: data.sender,
