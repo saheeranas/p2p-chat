@@ -32,16 +32,18 @@ function Welcome() {
     }
 
     try {
-      const newConn = peer.connect(values.destId);
+      const newConn = peer.connect(values.destId, {
+        serialization: "json",
+      });
       setConn(newConn);
       storeToLocal("destId", values.destId);
     } catch (error) {
-      console.warn(error);
+      // console.warn(error);
     }
   };
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "100vh", overflow: "auto" }}>
       <Main pad="large" background="brand" justify="center" align="center">
         <Box width="medium" background="light-1" pad="medium">
           <Box

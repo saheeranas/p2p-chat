@@ -4,14 +4,13 @@
   "main": "index.js",
   "license": "",
   "scripts": {
-    "dev": "nodemon webrtc-chat.js",
-    "start": "node webrtc-chat.js",
+    "dev": "nodemon index.js",
+    "start": "node index.js",
     "build": "cd ../client && npm run build"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "peer": "^0.6.1",
-    "socket.io": "^4.4.1"
+    "peer": "^0.6.1"
   }
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {
   Main,
-  TextInput,
+  TextArea,
   Button,
   Card,
   CardHeader,
@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { usePeerInfo } from "../hooks/useChatsInfo";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 import ChatListRTC from "../components/ChatListRTC";
 
 type chatHistoryType = {
@@ -27,6 +28,7 @@ const intialValues = { msg: "" };
 function ChatRTC() {
   let navigate = useNavigate();
   const { peer, conn, user } = usePeerInfo();
+  const { height } = useWindowDimensions();
   const [value, setValue] = useState(intialValues);
 
   const [chatHistory, setChatHistory] = useState<chatHistoryType[]>([]);
@@ -37,9 +39,18 @@ function ChatRTC() {
     }
   }, [conn, navigate]);
 
+  const handleChatHistory = (message: string | chatHistoryType) => {
+    let temp =
+      typeof message === "string"
+        ? { senderId: peer._id, sender: user.name, message }
+        : message;
+    setChatHistory((prevState) => [...prevState, temp]);
+  };
+
   useEffect(() => {
     if (conn) {
       conn.on("data", function (data: any) {
+        // console.log(data);
         handleChatHistory({
           senderId: data.senderId,
           sender: data.sender,
@@ -51,15 +62,7 @@ function ChatRTC() {
         navigate("/");
       });
     }
-  }, [conn]);
-
-  const handleChatHistory = (message: string | chatHistoryType) => {
-    let temp =
-      typeof message === "string"
-        ? { senderId: peer._id, sender: user.name, message }
-        : message;
-    setChatHistory((prevState) => [...prevState, temp]);
-  };
+  }, [conn, navigate]);
 
   const handleSend = (values: any) => {
     if (conn && value.msg.trim() !== "") {
@@ -74,9 +77,9 @@ function ChatRTC() {
   };
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height }}>
       <Main background="brand" justify="start" align="center">
-        <Card width="medium" height="95%" background="light-1" responsive>
+        <Card width="medium" fill="vertical" background="light-1" responsive>
           <CardHeader pad="medium" background="light-1">
             <Text>{conn?.peer ? conn.peer : ""}</Text>
             <Button
@@ -103,7 +106,10 @@ function ChatRTC() {
               <div>No Peers</div>
             )}
           </CardBody>
-          <CardFooter pad="medium" background="light-1">
+          <CardFooter
+            pad={{ horizontal: "medium", vertical: "small" }}
+            background="light-1"
+          >
             <Form
               value={value}
               onChange={(nextValue) => setValue(nextValue)}
@@ -111,8 +117,21 @@ function ChatRTC() {
               onSubmit={({ value }) => handleSend(value)}
               style={{ width: "100%" }}
             >
-              <Box direction="row" gap="small" justify="between" align="center">
-                <TextInput id="msg" name="msg" placeholder="type here" />
+              <Box
+                direction="row"
+                gap="small"
+                justify="between"
+                align="center"
+                height="50px"
+              >
+                <TextArea
+                  id="msg"
+                  name="msg"
+                  placeholder="type here"
+                  resize={false}
+                  size="medium"
+                  fill
+                />
                 <Button
                   primary
                   type="submit"

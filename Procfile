@@ -1,1 +1,1 @@
-web: cd server-node && node webrtc-chat.js
+web: cd server-node && node index.js
