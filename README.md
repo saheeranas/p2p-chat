@@ -2,6 +2,10 @@
 
 Peer-to-Peer (P2P) text chat using WebRTC.
 
+<kbd>
+  <img src=".demo/p2p-chat-saheeranas.png?raw=true"> 
+</kbd>
+
 ## Tech
 
 Technical Information about the project:
