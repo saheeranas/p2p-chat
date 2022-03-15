@@ -4,7 +4,7 @@
   "main": "index.js", 
   "private": true,
   "scripts": {
-    "start": "node server-node/webrtc-chat.js",
+    "start": "node server-node/index.js",
     "build": "cd ./client && npm install && npm run build && cd ../server-node && npm install"
   },
   "engine": {

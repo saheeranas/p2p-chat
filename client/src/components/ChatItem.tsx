@@ -14,6 +14,15 @@ const ChatItem = ({
   owner = false,
   value,
 }: ChatItemPropsType) => {
+  // const formatMessage = (text: string) => {
+  //   let regex =
+  //     /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+  //   let res = text.replace(regex, (url: string) => {
+  //     return `<Anchor href=${url} label=${url} />`;
+  //   });
+  //   return <div>{res}</div>;
+  // };
+
   return (
     <div className={className}>
       <Text size="small">{name}</Text>

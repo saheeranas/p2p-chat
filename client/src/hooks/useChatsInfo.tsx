@@ -81,12 +81,12 @@ export const PeerInfoProvider = ({ children }: any) => {
   useEffect(() => {
     if (peer) {
       peer.on("open", (id: any) => {
-        console.log("My peer ID is: " + id);
+        // console.log("My peer ID is: " + id);
         setUser((prevState) => ({ ...prevState, peerId: id }));
 
         let oldDestId = readFromLocal("destId");
         if (oldDestId && !conn) {
-          console.log("destId in local exists", oldDestId);
+          // console.log("destId in local exists", oldDestId);
           const newConn = peer.connect(oldDestId, {
             serialization: "json",
           });
@@ -104,16 +104,16 @@ export const PeerInfoProvider = ({ children }: any) => {
 
       peer.on("error", function (err: any) {
         setError(err?.type);
-        console.log("Peer error");
+        // console.log("Peer error");
       });
 
       peer.on("close", function () {
-        console.log("Peer closed");
+        // console.log("Peer closed");
       });
 
       peer.on("disconnected", function () {
         // peer.reconnect();
-        console.log("Peer disconnected");
+        // console.log("Peer disconnected");
       });
     }
   }, [peer, conn]);
@@ -121,7 +121,7 @@ export const PeerInfoProvider = ({ children }: any) => {
   useEffect(() => {
     if (conn) {
       conn.on("close", () => {
-        console.log("data connection closed");
+        // console.log("data connection closed");
         deleteFromLocal("destId");
       });
     }
