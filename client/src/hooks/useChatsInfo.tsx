@@ -59,9 +59,36 @@ export const PeerInfoProvider = ({ children }: any) => {
       storeToLocal("myId", random_id);
     }
 
-    let config: { host: string | undefined; path: string; port?: number } = {
+    let config: {
+      host: string | undefined;
+      path: string;
+      port?: number;
+      config?: any;
+    } = {
       host: process.env.REACT_APP_HOST,
       path: "/peerjs",
+      config: {
+        iceServers: [
+          {
+            urls: "stun:openrelay.metered.ca:80",
+          },
+          {
+            urls: "turn:openrelay.metered.ca:80",
+            username: "openrelayproject",
+            credential: "openrelayproject",
+          },
+          {
+            urls: "turn:openrelay.metered.ca:443",
+            username: "openrelayproject",
+            credential: "openrelayproject",
+          },
+          {
+            urls: "turn:openrelay.metered.ca:443?transport=tcp",
+            username: "openrelayproject",
+            credential: "openrelayproject",
+          },
+        ],
+      },
     };
 
     if (Boolean(parseInt(`${process.env.REACT_APP_PORT}`))) {
