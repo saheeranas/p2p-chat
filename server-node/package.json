@@ -11,6 +11,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "peer": "^0.6.1"
+    "node-turn": "^0.0.6",
+    "peer": "^0.6.1",
+    "socket.io": "^4.4.1"
   }
 }
