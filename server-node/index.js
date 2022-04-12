@@ -4,6 +4,7 @@ const path = require("path");
 const server = require("http").createServer(app);
 const { ExpressPeerServer } = require("peer");
 const cors = require("cors");
+var Turn = require('node-turn');
 
 const port = process.env.PORT || 5000;
 
@@ -17,6 +18,11 @@ app.use(express.static(path.join(__dirname, "dist_client")));
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "dist_client", "index.html"));
+});
+
+// turn server
+var turn_server = new Turn({ 
+  authMech: 'none', 
 });
 
 app.use("/peerjs", peerServer);
