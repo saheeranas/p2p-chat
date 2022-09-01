@@ -4,7 +4,7 @@ const path = require("path");
 const server = require("http").createServer(app);
 const { ExpressPeerServer } = require("peer");
 const cors = require("cors");
-var Turn = require('node-turn');
+// var Turn = require('node-turn');
 
 const port = process.env.PORT || 5000;
 
@@ -21,19 +21,19 @@ app.get("/", function (req, res) {
 });
 
 // turn server
-var turn_server = new Turn({ 
-  authMech: 'none', 
-});
+// var turn_server = new Turn({ 
+//   authMech: 'none', 
+// });
 
 app.use("/peerjs", peerServer);
 
 server.listen(port, () => {
-  console.log(`server started on ${port}`);
+//   console.log(`server started on ${port}`);
 });
 
 peerServer.on("connection", (client) => {
-  console.log("client connected");
+//   console.log("client connected");
 });
 peerServer.on("disconnect", (client) => {
-  console.log("client disconnected");
+//   console.log("client disconnected");
 });

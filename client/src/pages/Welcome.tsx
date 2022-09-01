@@ -45,7 +45,12 @@ function Welcome() {
   return (
     <div style={{ height: "100vh", overflow: "auto" }}>
       <Main pad="large" background="brand" justify="center" align="center">
-        <Box width="medium" background="light-1" pad="medium">
+        <Box
+          width="medium"
+          background="light-1"
+          pad="medium"
+          height={{ min: "auto" }}
+        >
           <Box
             pad="small"
             margin={{ bottom: "small" }}
