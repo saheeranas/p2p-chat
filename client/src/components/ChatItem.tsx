@@ -1,4 +1,4 @@
-import { Text } from "grommet";
+import { Text, Anchor } from "grommet";
 import styled from "styled-components";
 
 interface ChatItemPropsType {
@@ -14,19 +14,27 @@ const ChatItem = ({
   owner = false,
   value,
 }: ChatItemPropsType) => {
-  // const formatMessage = (text: string) => {
-  //   let regex =
-  //     /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-  //   let res = text.replace(regex, (url: string) => {
-  //     return `<Anchor href=${url} label=${url} />`;
-  //   });
-  //   return <div>{res}</div>;
-  // };
+  const formatMessage = (text: string) => {
+    let regex =
+      /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+
+    let res = text
+      .split(" ")
+      .map((w, i) =>
+        regex.test(w) ? (
+          <Anchor key={w + i} href={w} label={`${w} `} />
+        ) : (
+          <Text key={w + i}>{w} </Text>
+        )
+      );
+
+    return res;
+  };
 
   return (
     <div className={className}>
       <Text size="small">{name}</Text>
-      <Text>{value}</Text>
+      <div>{formatMessage(value)}</div>
     </div>
   );
 };
