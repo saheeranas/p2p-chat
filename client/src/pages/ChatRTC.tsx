@@ -72,6 +72,13 @@ function ChatRTC() {
     setValue(intialValues);
   };
 
+  const onPressEnter = (e: any) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault();
+      handleSend(value);
+    }
+  };
+
   const handleDisconnect = () => {
     conn.close();
   };
@@ -131,6 +138,7 @@ function ChatRTC() {
                   resize={false}
                   size="medium"
                   fill
+                  onKeyDown={onPressEnter}
                 />
                 <Button
                   primary
