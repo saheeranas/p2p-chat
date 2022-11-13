@@ -2,7 +2,7 @@
   "name": "server-node",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "",
+  "license": "MIT",
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
@@ -13,6 +13,6 @@
     "express": "^4.18.1",
     "node-turn": "^0.0.6",
     "peer": "^0.6.1",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.3"
   }
 }
