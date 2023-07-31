@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "BUILD_PATH='../server-node/dist_client' tsc && vite build",
+    "build": "tsc && vite build && rsync -a --delete dist/ ../server-node/dist_client",
     "build-og": "tsc && vite build",
     "serve": "vite preview"
   },
