@@ -65,7 +65,7 @@ export const PeerInfoProvider = ({ children }: any) => {
       port?: number;
       config?: any;
     } = {
-      host: process.env.REACT_APP_HOST,
+      host: import.meta.env.VITE_HOST,
       path: "/peerjs",
       config: {
         iceServers: [
@@ -91,8 +91,8 @@ export const PeerInfoProvider = ({ children }: any) => {
       },
     };
 
-    if (Boolean(parseInt(`${process.env.REACT_APP_PORT}`))) {
-      config["port"] = parseInt(`${process.env.REACT_APP_PORT}`);
+    if (Boolean(parseInt(`${import.meta.env.VITE_PORT}`))) {
+      config["port"] = parseInt(`${import.meta.env.VITE_PORT}`);
     }
 
     const newPeer = new Peer(myId, config);

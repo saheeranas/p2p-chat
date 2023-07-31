@@ -1,4 +1,3 @@
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
@@ -13,5 +12,3 @@ root.render(
     <App />
   </BrowserRouter>
 );
-
-serviceWorkerRegistration.register();
