@@ -12,14 +12,13 @@ Technical Information about the project:
 
 ### Features
 
-    - P2P
-    - PWA
-    - Private
-    - Heroku ready
+    - P2P 
+    - Private 
+    - Render ready
 
 ### Stack
 
-    - React (CRA + TypeScript)
+    - React (Vite + TypeScript)
     - Express
     - PeerJs
 
@@ -34,8 +33,7 @@ Technical Information about the project:
 2. Start the server
    ```
    npm start
-   ```
-3. Go to http://localhost:5000 in browser to use the app
+   ``` 
 
 ## License
 
