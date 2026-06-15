@@ -6,9 +6,5 @@
   "scripts": {
     "start": "node server-node/index.js",
     "build": "cd ./client && npm install && npm run build && cd ../server-node && npm install"
-  },
-  "engines": {
-    "node": "16.13.1",
-    "npm": "8.1.2"
   }
 }
